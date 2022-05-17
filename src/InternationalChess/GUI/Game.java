@@ -1,6 +1,5 @@
 package InternationalChess.GUI;
 
-import InternationalChess.engine.classic.Alliance;
 import InternationalChess.engine.classic.board.*;
 import InternationalChess.engine.classic.board.Move.MoveFactory;
 import InternationalChess.engine.classic.pieces.Piece;
@@ -29,7 +28,7 @@ import static javax.swing.SwingUtilities.*;
 
 public final class Game extends Observable {
 
-    private  JFrame gameFrame;
+    private final JFrame gameFrame;
     private final BoardPanel boardPanel;
     private final MoveLog moveLog;
     private final GameSetup gameSetup;
@@ -41,37 +40,19 @@ public final class Game extends Observable {
     private String pieceIconPath;
     private boolean highlightLegalMoves;
     private boolean useBook;
-    private Color darkTileColor =new Color(181,126,99);
+    private Color darkTileColor = new Color(181,126,99);
     private Color lightTileColor =  new Color(250,217,181);
 
     private static final Dimension OUTER_FRAME_DIMENSION = new Dimension(1100, 1100);
     private static final Dimension BOARD_PANEL_DIMENSION = new Dimension(750, 700);
     private static final Dimension TILE_PANEL_DIMENSION = new Dimension(10, 10);
 
-    private static  Game INSTANCE = new Game();
-//以上为一些初始化
+    private static final Game INSTANCE = new Game();
+
     private Game() {
         this.gameFrame = new JFrame("International Chess");
         final JMenuBar tableMenuBar = new JMenuBar();
         populateMenuBar(tableMenuBar);
-        final JButton black = new JButton("BLACK");
-        black.setLocation(800,600);
-        black.setFont(new Font("Rockwell", Font.BOLD, 25));
-        black.setSize(200,60);
-        this.gameFrame.add(black);
-
-        black.setVisible(false);
-        final JButton white = new JButton("WHITE");
-        white.setLocation(800,700);
-        white.setFont(new Font("Rockwell", Font.BOLD, 25));
-        white.setSize(200,60);
-        this.gameFrame.add(white);
-        white.setVisible(false);
-
-//         if (chessBoard.currentPlayer().getAlliance()== Alliance.BLACK){
-//            white.setVisible(false);
-//            black.setVisible(true);
-//        }
         final JButton reset = new JButton("reset");//重新开始
         reset.setLocation(800, 200);
         reset.setFont(new Font("Rockwell", Font.BOLD, 25));
@@ -88,7 +69,7 @@ public final class Game extends Observable {
             }
         });
         this.gameFrame.add(undo);
-        final JButton save = new JButton("save");//存档
+        final JButton save = new JButton("save");//悔棋
         save.setLocation(800, 400);
         save.setFont(new Font("Rockwell", Font.BOLD, 25));
         save.setSize(200, 60);
@@ -115,7 +96,7 @@ public final class Game extends Observable {
         flip.setFont(new Font("Rockwell", Font.BOLD, 25));
         flip.setSize(200,60);
         this.gameFrame.add(flip);
-        this.gameFrame.setJMenuBar(tableMenuBar);//上面
+        //this.gameFrame.setJMenuBar(tableMenuBar);//上面
         this.gameFrame.setLayout(new BorderLayout());
         this.chessBoard = Board.createStandardBoard();
         this.boardDirection = BoardDirection.NORMAL;
@@ -125,9 +106,6 @@ public final class Game extends Observable {
             boardDirection = boardDirection.opposite();
             boardPanel.drawBoard(chessBoard);
         });
-
-
-
         this.highlightLegalMoves = true;
         //this.useBook = false;
         this.moveLog = new MoveLog();
@@ -138,24 +116,7 @@ public final class Game extends Observable {
         this.gameFrame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         this.gameFrame.setSize(OUTER_FRAME_DIMENSION);
         center(this.gameFrame);
-        save.setVisible(true);
-        flip.setVisible(true);
-        boardPanel.setVisible(true);
-        reset.setVisible(true);
-        undo.setVisible(true);
-        if (chessBoard.currentPlayer().getAlliance()== Alliance.BLACK){
-            black.setVisible(true);
-            white.setVisible(false);
-        }else {
-            white.setVisible(true);
-            black.setVisible(false);
-
-
-        }
-        gameFrame.setVisible(true);
-
-
-
+        this.gameFrame.setVisible(true);
     }
 
     public static Game get() {
@@ -166,7 +127,7 @@ public final class Game extends Observable {
         return this.gameFrame;
     }
 
-    public Board getGameBoard() {
+    private Board getGameBoard() {
         return this.chessBoard;
     }
 
@@ -174,7 +135,7 @@ public final class Game extends Observable {
         return this.moveLog;
     }
 
-    public BoardPanel getBoardPanel() {
+    private BoardPanel getBoardPanel() {
         return this.boardPanel;
     }
 
@@ -204,7 +165,7 @@ public final class Game extends Observable {
 
     public void show() {
         Game.get().getMoveLog().clear();
-//        Game.get().getState();
+        //Game.get().getState();
         //Game.get().getGameHistoryPanel().redo(chessBoard, Game.get().getMoveLog());
         //Game.get().getTakenPiecesPanel().redo(Game.get().getMoveLog());
         Game.get().getBoardPanel().drawBoard(Game.get().getGameBoard());
@@ -482,9 +443,6 @@ public final class Game extends Observable {
             persistPGNFile(pgnFile);
         }
         catch (final IOException e) {
-            JOptionPane.showMessageDialog(Game.get().getBoardPanel(),
-                    "Player " + Game.get().getGameBoard().currentPlayer() + " is being checked!", "Warning",
-                    JOptionPane.INFORMATION_MESSAGE);
             e.printStackTrace();
         }
     }
@@ -527,8 +485,8 @@ public final class Game extends Observable {
                            final Object arg) {
 
             if (Game.get().getGameSetup().isAIPlayer(Game.get().getGameBoard().currentPlayer()) &&
-                !Game.get().getGameBoard().currentPlayer().isInCheckMate() &&
-                !Game.get().getGameBoard().currentPlayer().isInStaleMate()) {
+                    !Game.get().getGameBoard().currentPlayer().isInCheckMate() &&
+                    !Game.get().getGameBoard().currentPlayer().isInStaleMate()) {
                 System.out.println(Game.get().getGameBoard().currentPlayer() + " is set to AI, thinking....");
                 final AIThinkTank thinkTank = new AIThinkTank();
                 thinkTank.execute();
@@ -631,7 +589,6 @@ public final class Game extends Observable {
             repaint();
         }
 
-
         void setTileDarkColor(final Board board,
                               final Color darkColor) {
             for (final TilePanel boardTile : boardTiles) {
@@ -641,7 +598,7 @@ public final class Game extends Observable {
         }
 
         void setTileLightColor(final Board board,
-                                      final Color lightColor) {
+                               final Color lightColor) {
             for (final TilePanel boardTile : boardTiles) {
                 boardTile.setLightTileColor(lightColor);
             }
@@ -730,7 +687,7 @@ public final class Game extends Observable {
                 public void mouseClicked(final MouseEvent event) {
 
                     if(Game.get().getGameSetup().isAIPlayer(Game.get().getGameBoard().currentPlayer()) ||
-                       BoardUtils.isEndGame(Game.get().getGameBoard())) {
+                            BoardUtils.isEndGame(Game.get().getGameBoard())) {
                         return;
                     }
 
@@ -738,7 +695,6 @@ public final class Game extends Observable {
                         sourceTile = null;
                         humanMovedPiece = null;
                     } else if (isLeftMouseButton(event)) {
-
                         if (sourceTile == null) {
                             sourceTile = chessBoard.getPiece(tileId);
                             humanMovedPiece = sourceTile;
@@ -752,18 +708,6 @@ public final class Game extends Observable {
                             if (transition.getMoveStatus().isDone()) {
                                 chessBoard = transition.getToBoard();
                                 moveLog.addMove(move);
-                                //显示状态：备用措施
-//                                if (chessBoard.currentPlayer().getAlliance()==Alliance.WHITE){
-//                                    JOptionPane.showMessageDialog(Game.get().getBoardPanel(),
-//                                            "It's White's turn", "Tips",
-//                                            JOptionPane.INFORMATION_MESSAGE);
-//                                }else if (chessBoard.currentPlayer().getAlliance()==Alliance.BLACK){
-//                                    JOptionPane.showMessageDialog(Game.get().getBoardPanel(),
-//                                            "It's Black's turn", "Tips",
-//                                            JOptionPane.INFORMATION_MESSAGE);
-//                                }
-
-
                             }
                             sourceTile = null;
                             humanMovedPiece = null;
@@ -773,7 +717,7 @@ public final class Game extends Observable {
                         //gameHistoryPanel.redo(chessBoard, moveLog);
                         //takenPiecesPanel.redo(moveLog);
                         //if (gameSetup.isAIPlayer(chessBoard.currentPlayer())) {
-                            Game.get().moveMadeUpdate(PlayerType.HUMAN);
+                        Game.get().moveMadeUpdate(PlayerType.HUMAN);
                         //}
                         boardPanel.drawBoard(chessBoard);
                         //debugPanel.redo();
@@ -782,10 +726,12 @@ public final class Game extends Observable {
 
                 @Override
                 public void mouseExited(final MouseEvent e) {
+                    assignTileColor();
                 }
 
                 @Override
                 public void mouseEntered(final MouseEvent e) {
+                    setBackground(Color.MAGENTA);
                 }
 
                 @Override
@@ -817,20 +763,10 @@ public final class Game extends Observable {
             darkTileColor = color;
         }
 
-        public void statement(final Board board){
+        private void highlightTileBorder(final Board board) {
             if(humanMovedPiece != null &&
                     humanMovedPiece.getPieceAllegiance() == board.currentPlayer().getAlliance() &&
                     humanMovedPiece.getPiecePosition() == this.tileId) {
-                setBackground(Color.RED);
-            } /*else {
-                setBorder(BorderFactory.createLineBorder(Color.GRAY));
-            }*/
-        }
-
-        private void highlightTileBorder(final Board board) {
-            if(humanMovedPiece != null &&
-               humanMovedPiece.getPieceAllegiance() == board.currentPlayer().getAlliance() &&
-               humanMovedPiece.getPiecePosition() == this.tileId) {
                 //setBorder(BorderFactory.createLineBorder(Color.cyan));
                 setBackground(Color.RED);
             } /*else {
@@ -883,14 +819,14 @@ public final class Game extends Observable {
 
         private void assignTileColor() {
             if (BoardUtils.INSTANCE.FIRST_ROW.get(this.tileId) ||
-                BoardUtils.INSTANCE.THIRD_ROW.get(this.tileId) ||
-                BoardUtils.INSTANCE.FIFTH_ROW.get(this.tileId) ||
-                BoardUtils.INSTANCE.SEVENTH_ROW.get(this.tileId)) {
+                    BoardUtils.INSTANCE.THIRD_ROW.get(this.tileId) ||
+                    BoardUtils.INSTANCE.FIFTH_ROW.get(this.tileId) ||
+                    BoardUtils.INSTANCE.SEVENTH_ROW.get(this.tileId)) {
                 setBackground(this.tileId % 2 == 0 ? lightTileColor : darkTileColor);
             } else if(BoardUtils.INSTANCE.SECOND_ROW.get(this.tileId) ||
-                      BoardUtils.INSTANCE.FOURTH_ROW.get(this.tileId) ||
-                      BoardUtils.INSTANCE.SIXTH_ROW.get(this.tileId)  ||
-                      BoardUtils.INSTANCE.EIGHTH_ROW.get(this.tileId)) {
+                    BoardUtils.INSTANCE.FOURTH_ROW.get(this.tileId) ||
+                    BoardUtils.INSTANCE.SIXTH_ROW.get(this.tileId)  ||
+                    BoardUtils.INSTANCE.EIGHTH_ROW.get(this.tileId)) {
                 setBackground(this.tileId % 2 != 0 ? lightTileColor : darkTileColor);
             }
         }
