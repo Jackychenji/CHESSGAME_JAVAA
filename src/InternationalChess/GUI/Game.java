@@ -1,5 +1,6 @@
 package InternationalChess.GUI;
 
+import InternationalChess.engine.classic.Alliance;
 import InternationalChess.engine.classic.board.*;
 import InternationalChess.engine.classic.board.Move.MoveFactory;
 import InternationalChess.engine.classic.pieces.Piece;
@@ -33,6 +34,8 @@ public final class Game extends Observable {
     private final MoveLog moveLog;
     private final GameSetup gameSetup;//人机对战
     private Board chessBoard;
+    private JButton black;
+    private JButton white;
     private Move computerMove;
     private Piece sourceTile;
     private Piece humanMovedPiece;
@@ -69,6 +72,20 @@ public final class Game extends Observable {
             }
         });
         this.gameFrame.add(undo);
+
+        black = new JButton("black");//黑棋
+        black.setLocation(800, 600);
+        black.setFont(new Font("Rockwell", Font.BOLD, 25));
+        black.setSize(200, 60);
+        black.setVisible(false);
+        this.gameFrame.add(black);
+        white = new JButton("white");//白棋
+        white.setLocation(800, 700);
+        white.setFont(new Font("Rockwell", Font.BOLD, 25));
+        white.setSize(200, 60);
+        white.setVisible(true);
+        this.gameFrame.add(white);
+
         final JButton save = new JButton("save");//悔棋
         save.setLocation(800, 400);
         save.setFont(new Font("Rockwell", Font.BOLD, 25));
@@ -140,7 +157,13 @@ public final class Game extends Observable {
     }
 
     public void setStatement(){
-
+     if (chessBoard.currentPlayer().getAlliance()==Alliance.WHITE){
+         black.setVisible(false);
+         white.setVisible(true);
+     }else {
+         white.setVisible(false);
+         black.setVisible(true);
+     }
     }
 
    /* private GameHistoryPanel getGameHistoryPanel() {
@@ -522,7 +545,7 @@ public final class Game extends Observable {
     enum PlayerType {
         HUMAN,
         COMPUTER
-    }
+    }//人机/人人choose
 
     private static class AIThinkTank extends SwingWorker<Move, String> {
 
@@ -713,6 +736,7 @@ public final class Game extends Observable {
                             if (transition.getMoveStatus().isDone()) {
                                 chessBoard = transition.getToBoard();
                                 moveLog.addMove(move);
+                                setStatement();
                             }
                             sourceTile = null;
                             humanMovedPiece = null;
