@@ -31,7 +31,7 @@ public final class Game extends Observable {
     private final JFrame gameFrame;
     private final BoardPanel boardPanel;
     private final MoveLog moveLog;
-    private final GameSetup gameSetup;
+    private final GameSetup gameSetup;//人机对战
     private Board chessBoard;
     private Move computerMove;
     private Piece sourceTile;
@@ -135,8 +135,12 @@ public final class Game extends Observable {
         return this.moveLog;
     }
 
-    private BoardPanel getBoardPanel() {
+    public BoardPanel getBoardPanel() {
         return this.boardPanel;
+    }
+
+    public void setStatement(){
+
     }
 
    /* private GameHistoryPanel getGameHistoryPanel() {
@@ -169,6 +173,7 @@ public final class Game extends Observable {
         //Game.get().getGameHistoryPanel().redo(chessBoard, Game.get().getMoveLog());
         //Game.get().getTakenPiecesPanel().redo(Game.get().getMoveLog());
         Game.get().getBoardPanel().drawBoard(Game.get().getGameBoard());
+
         //Table.get().getDebugPanel().redo();
     }
 
