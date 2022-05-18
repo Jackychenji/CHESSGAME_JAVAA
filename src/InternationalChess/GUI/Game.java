@@ -34,9 +34,10 @@ public final class Game extends Observable {
     private final MoveLog moveLog;
     private final GameSetup gameSetup;//人机对战
     private Board chessBoard;
-    private JButton black;
-    private JButton white;
-    //private JLabel state;
+    //private JButton black;
+    //private JButton white;
+    private JLabel state;
+    private JButton surrender;
     private Move computerMove;
     private Piece sourceTile;
     private Piece humanMovedPiece;
@@ -74,7 +75,7 @@ public final class Game extends Observable {
         });
         this.gameFrame.add(undo);
 
-        black = new JButton("black");//黑棋
+        /*black = new JButton("black");//黑棋
         black.setLocation(800, 600);
         black.setFont(new Font("Rockwell", Font.BOLD, 25));
         black.setSize(200, 60);
@@ -85,15 +86,15 @@ public final class Game extends Observable {
         white.setFont(new Font("Rockwell", Font.BOLD, 25));
         white.setSize(200, 60);
         white.setVisible(true);
-        this.gameFrame.add(white);
+        this.gameFrame.add(white);*/
 
-        /*state = new JLabel();
+        state = new JLabel();
         state.setLocation(800,100);
         state.setText("WHITE");
         state.setFont(new Font("Rockwell", Font.BOLD, 25));
         state.setSize(200,60);
         state.setVisible(true);
-        this.gameFrame.add(state);*/
+        this.gameFrame.add(state);
 
         final JButton save = new JButton("save");//悔棋
         save.setLocation(800, 400);
@@ -117,6 +118,18 @@ public final class Game extends Observable {
             }
         });
         this.gameFrame.add(save);
+        surrender = new JButton("surrender");
+        surrender.setLocation(800,600);
+        surrender.setFont(new Font("Rockwell", Font.BOLD, 25));
+        surrender.setSize(200,60);
+        surrender.addActionListener(e -> {
+            JOptionPane.showMessageDialog(Game.get().getBoardPanel(),
+                    "Game Over: Player " + Game.get().getGameBoard().currentPlayer() + " surrenders, "
+                    + "Player " + Game.get().getGameBoard().currentPlayer().getOpponent() + " wins!", "Game Over",
+                    JOptionPane.INFORMATION_MESSAGE);
+        });
+        this.gameFrame.add(surrender);
+
         final JButton flip = new JButton("flip");//翻转棋盘
         flip.setLocation(800,500);
         flip.setFont(new Font("Rockwell", Font.BOLD, 25));
@@ -167,15 +180,15 @@ public final class Game extends Observable {
 
     public void setStatement(){
      if (chessBoard.currentPlayer().getAlliance()==Alliance.WHITE){
-//         state.setText("WHITE");
-//         state.setVisible(true);
-         black.setVisible(false);
-         white.setVisible(true);
+         state.setText("WHITE");
+         state.setVisible(true);
+         //black.setVisible(false);
+         //white.setVisible(true);
      }else {
-//         state.setText("BLACK");
-//         state.setVisible(true);
-         white.setVisible(false);
-         black.setVisible(true);
+         state.setText("BLACK");
+         state.setVisible(true);
+         //white.setVisible(false);
+         //black.setVisible(true);
      }
     }
 
