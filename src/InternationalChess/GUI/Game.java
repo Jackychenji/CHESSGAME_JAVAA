@@ -62,7 +62,10 @@ public final class Game extends Observable {
         reset.setLocation(800, 200);
         reset.setFont(new Font("Rockwell", Font.BOLD, 25));
         reset.setSize(200, 60);
-        reset.addActionListener(e -> undoAllMoves());
+        reset.addActionListener(e -> {
+            undoAllMoves();
+
+        });
         this.gameFrame.add(reset);
         final JButton undo = new JButton("undo");//悔棋
         undo.setLocation(800, 300);
@@ -484,6 +487,7 @@ public final class Game extends Observable {
             final Move lastMove = Game.get().getMoveLog().removeMove(Game.get().getMoveLog().size() - 1);
             this.chessBoard = this.chessBoard.currentPlayer().unMakeMove(lastMove).getToBoard();
         }
+        setStatement();
         this.computerMove = null;
         Game.get().getMoveLog().clear();
         //Game.get().getGameHistoryPanel().redo(chessBoard, Game.get().getMoveLog());
