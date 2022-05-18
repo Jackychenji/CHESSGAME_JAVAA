@@ -268,7 +268,13 @@ public final class Game extends Observable {
             JFileChooser chooser = new JFileChooser();
             int option = chooser.showOpenDialog(Game.get().getGameFrame());
             if (option == JFileChooser.APPROVE_OPTION) {
-                loadFENFile(chooser.getSelectedFile());
+                String fenString = loadFENFile(chooser.getSelectedFile());
+                if (fenString != null) {
+                    undoAllMoves();
+                    chessBoard = FenUtilities.createGameFromFEN(fenString);
+                    Game.get().getBoardPanel().drawBoard(chessBoard);
+
+                }
             }
         });
         filesMenu.add(openFEN);
@@ -500,26 +506,28 @@ public final class Game extends Observable {
         //Table.get().getDebugPanel().redo();
     }
 
-    static void loadFENFile(final File fenFile){
+    public static String loadFENFile(final File fenFile){
         try {
-
             BufferedReader in=new BufferedReader(new FileReader(fenFile));
             if (fenFile.getName().toLowerCase().endsWith("txt")){
                 String fenString = in.readLine();
                 FenUtilities.createGameFromFEN(fenString);
+                return fenString;
             }else {
                 JOptionPane.showMessageDialog(Game.get().getBoardPanel(),
                         "错误编码 104", "Warning",
                         JOptionPane.INFORMATION_MESSAGE);
+                return null;
             }
 
         }
         catch (final IOException e) {
             e.printStackTrace();
+            return null;
         }
 
     }
-    static void saveFENFile(final Board board){
+    void saveFENFile(final Board board){
         try {
             File testFile = new File("D:\\系统文件\\桌面\\save.txt");
             if (testFile.exists()) {
