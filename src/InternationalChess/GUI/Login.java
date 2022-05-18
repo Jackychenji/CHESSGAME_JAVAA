@@ -78,7 +78,8 @@ public class Login extends JFrame {
                 JFileChooser chooser = new JFileChooser();
                 int option = chooser.showOpenDialog(Game.get().getGameFrame());
                 if (option == JFileChooser.APPROVE_OPTION) {
-                    loadPGNFile(chooser.getSelectedFile());
+                    Game.loadFENFile(chooser.getSelectedFile());
+
                 }
         });
     }

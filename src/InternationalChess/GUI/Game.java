@@ -17,8 +17,7 @@ import javax.swing.filechooser.FileFilter;
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
 import java.util.*;
 import java.util.List;
 
@@ -108,11 +107,11 @@ public final class Game extends Observable {
             chooser.setFileFilter(new FileFilter() {
                 @Override
                 public String getDescription() {
-                    return ".pgn";
+                    return ".txt";
                 }
                 @Override
                 public boolean accept(final File file) {
-                    return file.isDirectory() || file.getName().toLowerCase().endsWith("pgn");
+                    return file.isDirectory() || file.getName().toLowerCase().endsWith("txt");
                 }
             });
             final int option = chooser.showSaveDialog(Game.get().getGameFrame());
@@ -138,7 +137,7 @@ public final class Game extends Observable {
         flip.setFont(new Font("Rockwell", Font.BOLD, 25));
         flip.setSize(200,60);
         this.gameFrame.add(flip);
-        //this.gameFrame.setJMenuBar(tableMenuBar);//上面
+        this.gameFrame.setJMenuBar(tableMenuBar);//上面
         this.gameFrame.setLayout(new BorderLayout());
         this.chessBoard = Board.createStandardBoard();
         this.boardDirection = BoardDirection.NORMAL;
@@ -248,7 +247,7 @@ public final class Game extends Observable {
         final JMenu filesMenu = new JMenu("File");
         filesMenu.setMnemonic(KeyEvent.VK_F);
 
-        final JMenuItem openPGN = new JMenuItem("Load PGN File", KeyEvent.VK_O);
+        final JMenuItem openPGN = new JMenuItem("PGN File", KeyEvent.VK_O);
         openPGN.addActionListener(e -> {
             JFileChooser chooser = new JFileChooser();
             int option = chooser.showOpenDialog(Game.get().getGameFrame());
@@ -260,11 +259,16 @@ public final class Game extends Observable {
 
         final JMenuItem openFEN = new JMenuItem("Load FEN File", KeyEvent.VK_F);
         openFEN.addActionListener(e -> {
-            String fenString = JOptionPane.showInputDialog("Input FEN");
-            if(fenString != null) {
-                undoAllMoves();
-                chessBoard = FenUtilities.createGameFromFEN(fenString);
-                Game.get().getBoardPanel().drawBoard(chessBoard);
+//            String fenString = JOptionPane.showInputDialog("Input FEN");
+//            if(fenString != null) {
+//                undoAllMoves();
+//                chessBoard = FenUtilities.createGameFromFEN(fenString);
+//                Game.get().getBoardPanel().drawBoard(chessBoard);
+//            }
+            JFileChooser chooser = new JFileChooser();
+            int option = chooser.showOpenDialog(Game.get().getGameFrame());
+            if (option == JFileChooser.APPROVE_OPTION) {
+                loadFENFile(chooser.getSelectedFile());
             }
         });
         filesMenu.add(openFEN);
@@ -494,6 +498,44 @@ public final class Game extends Observable {
         //Game.get().getTakenPiecesPanel().redo(Game.get().getMoveLog());
         Game.get().getBoardPanel().drawBoard(chessBoard);
         //Table.get().getDebugPanel().redo();
+    }
+
+    static void loadFENFile(final File fenFile){
+        try {
+
+            BufferedReader in=new BufferedReader(new FileReader(fenFile));
+            if (fenFile.getName().toLowerCase().endsWith("txt")){
+                String fenString = in.readLine();
+                FenUtilities.createGameFromFEN(fenString);
+            }else {
+                JOptionPane.showMessageDialog(Game.get().getBoardPanel(),
+                        "错误编码 104", "Warning",
+                        JOptionPane.INFORMATION_MESSAGE);
+            }
+
+        }
+        catch (final IOException e) {
+            e.printStackTrace();
+        }
+
+    }
+    static void saveFENFile(final Board board){
+        try {
+            File testFile = new File("D:\\系统文件\\桌面\\save.txt");
+            if (testFile.exists()) {
+                testFile.delete();
+            }
+
+            testFile.createNewFile();
+
+            BufferedWriter writer=new BufferedWriter(new FileWriter(testFile));
+            writer.write(FenUtilities.createFENFromGame(board));
+            writer.close();
+        }
+        catch (final IOException e) {
+            e.printStackTrace();
+        }
+
     }
 
     static void loadPGNFile(final File pgnFile) {
