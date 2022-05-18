@@ -36,6 +36,7 @@ public final class Game extends Observable {
     private Board chessBoard;
     private JButton black;
     private JButton white;
+    //private JLabel state;
     private Move computerMove;
     private Piece sourceTile;
     private Piece humanMovedPiece;
@@ -85,6 +86,14 @@ public final class Game extends Observable {
         white.setSize(200, 60);
         white.setVisible(true);
         this.gameFrame.add(white);
+
+        /*state = new JLabel();
+        state.setLocation(800,100);
+        state.setText("WHITE");
+        state.setFont(new Font("Rockwell", Font.BOLD, 25));
+        state.setSize(200,60);
+        state.setVisible(true);
+        this.gameFrame.add(state);*/
 
         final JButton save = new JButton("save");//悔棋
         save.setLocation(800, 400);
@@ -158,9 +167,13 @@ public final class Game extends Observable {
 
     public void setStatement(){
      if (chessBoard.currentPlayer().getAlliance()==Alliance.WHITE){
+//         state.setText("WHITE");
+//         state.setVisible(true);
          black.setVisible(false);
          white.setVisible(true);
      }else {
+//         state.setText("BLACK");
+//         state.setVisible(true);
          white.setVisible(false);
          black.setVisible(true);
      }
@@ -582,7 +595,7 @@ public final class Game extends Observable {
                 //Game.get().getTakenPiecesPanel().redo(Game.get().getMoveLog());
                 Game.get().getBoardPanel().drawBoard(Game.get().getGameBoard());
                 //Table.get().getDebugPanel().redo();
-                Game.get().moveMadeUpdate(PlayerType.COMPUTER);
+                Game.get().moveMadeUpdate(PlayerType.COMPUTER);//不能注释
             } catch (final Exception e) {
                 e.printStackTrace();
             }
