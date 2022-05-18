@@ -835,12 +835,25 @@ public final class Game extends Observable {
 
                 @Override
                 public void mouseExited(final MouseEvent e) {
-                    assignTileColor();
+                    if (getBackground() == Color.GREEN){
+                        setBackground(Color.GREEN);
+                    } else if (getBackground() == Color.RED) {
+                        setBackground(Color.RED);
+                    }else {
+                        assignTileColor();
+                    }
                 }
 
                 @Override
                 public void mouseEntered(final MouseEvent e) {
-                    setBackground(Color.MAGENTA);
+                    if (getBackground() == Color.GREEN){
+                        setBackground(Color.GREEN);
+                    } else if (getBackground() == Color.RED) {
+                        setBackground(Color.RED);
+                    }else {
+                        setBackground(Color.MAGENTA);
+                    }
+
                 }
 
                 @Override
