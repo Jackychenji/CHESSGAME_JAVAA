@@ -1,18 +1,19 @@
 package InternationalChess.engine.classic.pieces;
 
+import InternationalChess.GUI.Game;
 import InternationalChess.engine.classic.Alliance;
 import InternationalChess.engine.classic.board.Board;
 import InternationalChess.engine.classic.board.BoardUtils;
 import InternationalChess.engine.classic.board.Move;
 import InternationalChess.engine.classic.board.Move.*;
 
+import javax.swing.*;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
-public final class Pawn
-        extends Piece {
+public final class Pawn extends Piece {
 
     private final static int[] CANDIDATE_MOVE_COORDINATES = {8, 16, 7, 9};
 
@@ -42,14 +43,14 @@ public final class Pawn
                 continue;
             }
             if (currentCandidateOffset == 8 && board.getPiece(candidateDestinationCoordinate) == null) {
-                if (this.pieceAlliance.isPawnPromotionSquare(candidateDestinationCoordinate)) {
-                    legalMoves.add(new PawnPromotion(
-                            new PawnMove(board, this, candidateDestinationCoordinate), PieceUtils.INSTANCE.getMovedQueen(this.pieceAlliance, candidateDestinationCoordinate)));
-                    legalMoves.add(new PawnPromotion(
-                            new PawnMove(board, this, candidateDestinationCoordinate), PieceUtils.INSTANCE.getMovedRook(this.pieceAlliance, candidateDestinationCoordinate)));
-                    legalMoves.add(new PawnPromotion(
-                            new PawnMove(board, this, candidateDestinationCoordinate), PieceUtils.INSTANCE.getMovedBishop(this.pieceAlliance, candidateDestinationCoordinate)));
-                    legalMoves.add(new PawnPromotion(
+                if (this.pieceAlliance.isPawnPromotionSquare(candidateDestinationCoordinate)) {//兵升变
+                        legalMoves.add(new PawnPromotion(
+                                new PawnMove(board, this, candidateDestinationCoordinate), PieceUtils.INSTANCE.getMovedQueen(this.pieceAlliance, candidateDestinationCoordinate)));
+                        legalMoves.add(new PawnPromotion(
+                                new PawnMove(board, this, candidateDestinationCoordinate), PieceUtils.INSTANCE.getMovedRook(this.pieceAlliance, candidateDestinationCoordinate)));
+                        legalMoves.add(new PawnPromotion(
+                                new PawnMove(board, this, candidateDestinationCoordinate), PieceUtils.INSTANCE.getMovedBishop(this.pieceAlliance, candidateDestinationCoordinate)));
+                        legalMoves.add(new PawnPromotion(
                             new PawnMove(board, this, candidateDestinationCoordinate), PieceUtils.INSTANCE.getMovedKnight(this.pieceAlliance, candidateDestinationCoordinate)));
                 }
                 else {

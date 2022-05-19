@@ -604,7 +604,7 @@ public final class Game extends Observable {
                     !Game.get().getGameBoard().currentPlayer().isInCheckMate()) {
                 JOptionPane.showMessageDialog(Game.get().getBoardPanel(),
                         "Player " + Game.get().getGameBoard().currentPlayer() + " is being checked!", "Warning",
-                        JOptionPane.INFORMATION_MESSAGE);
+                        JOptionPane.WARNING_MESSAGE);
             }
             if (Game.get().getGameBoard().currentPlayer().isInCheckMate()) {
                 JOptionPane.showMessageDialog(Game.get().getBoardPanel(),
