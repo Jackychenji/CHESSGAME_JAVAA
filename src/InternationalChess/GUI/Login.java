@@ -18,7 +18,7 @@ public class Login extends JFrame {
     private final int HEIGHT;
 
     public Login(int width, int height){
-        setTitle("International Chess"); //设置标题
+        setTitle("Wizard Chess"); //设置标题
         this.WIDTH = width;
         this.HEIGHT = height;
         ImageIcon ic = new ImageIcon("images/background.png");

@@ -54,7 +54,7 @@ public final class Game extends Observable {
     private static final Game INSTANCE = new Game();
 
     private Game() {
-        this.gameFrame = new JFrame("International Chess");
+        this.gameFrame = new JFrame("Wizard Chess");
         final JMenuBar tableMenuBar = new JMenuBar();
         populateMenuBar(tableMenuBar);
         final JButton reset = new JButton("reset");//重新开始
