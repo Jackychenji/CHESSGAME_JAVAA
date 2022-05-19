@@ -47,13 +47,13 @@ public class Login extends JFrame {
         add(button);
 
         button.addActionListener(e -> {
+            Game.get().show();
             /*以下3行：
              关闭原来的界面
              */
             JComponent comp = (JComponent) e.getSource();
             Window win = SwingUtilities.getWindowAncestor(comp);
             win.dispose();
-            Game.get().show();
         });
     }
 
