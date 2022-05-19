@@ -1,4 +1,6 @@
 package InternationalChess.GUI;
+import InternationalChess.pgn.FenUtilities;
+
 import javax.sound.sampled.*;
 import javax.swing.*;
 import java.awt.*;
@@ -72,8 +74,8 @@ public class Login extends JFrame {
                 JFileChooser chooser = new JFileChooser();
                 int option = chooser.showOpenDialog(Game.get().getGameFrame());
                 if (option == JFileChooser.APPROVE_OPTION) {
-                    Game.loadFENFile(chooser.getSelectedFile());
-
+                    String fenString = Game.loadFENFile(chooser.getSelectedFile());
+                    Game.get().getBoardPanel().drawBoard(FenUtilities.createGameFromFEN(fenString));
                 }
                 /*以下3行：
              关闭原来的界面

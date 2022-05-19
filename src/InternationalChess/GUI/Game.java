@@ -669,7 +669,7 @@ public final class Game extends Observable {
         }
     }
 
-    private class BoardPanel extends JPanel {
+    public class BoardPanel extends JPanel {
 
         final List<TilePanel> boardTiles;
 
