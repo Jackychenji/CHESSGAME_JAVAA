@@ -1,5 +1,6 @@
 package InternationalChess.GUI;
 
+import InternationalChess.Main;
 import InternationalChess.engine.classic.Alliance;
 import InternationalChess.engine.classic.board.*;
 import InternationalChess.engine.classic.board.Move.MoveFactory;
@@ -25,6 +26,7 @@ import static InternationalChess.pgn.PGNUtilities.persistPGNFile;
 import static InternationalChess.pgn.PGNUtilities.writeGameToPGNFile;
 import static javax.swing.JFrame.setDefaultLookAndFeelDecorated;
 import static javax.swing.SwingUtilities.*;
+import InternationalChess.Play;
 
 public final class Game extends Observable {
 
@@ -610,12 +612,14 @@ public final class Game extends Observable {
                 JOptionPane.showMessageDialog(Game.get().getBoardPanel(),
                         "Game Over: Player " + Game.get().getGameBoard().currentPlayer() + " is in checkmate!", "Game Over",
                         JOptionPane.INFORMATION_MESSAGE);
+                Main.play.stop();
             }
 
             if (Game.get().getGameBoard().currentPlayer().isInStaleMate()) {
                 JOptionPane.showMessageDialog(Game.get().getBoardPanel(),
                         "Game Over: Player " + Game.get().getGameBoard().currentPlayer() + " is in stalemate!", "Game Over",
                         JOptionPane.INFORMATION_MESSAGE);
+                Main.play.stop();
             }
 
         }
