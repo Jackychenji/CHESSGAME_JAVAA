@@ -30,7 +30,7 @@ public  class Play implements Runnable {
     }
 
     public void stop() {
-        player.stop();
+        player.close();
         thread = null;
     }
 
@@ -50,7 +50,7 @@ public  class Play implements Runnable {
                 @Override
                 public void playbackFinished(PlaybackEvent event) {
                     // 当播放完毕后,会触发该事件,再次调用start()即可!
-                    start();
+                        start();
                 }
             });
         } catch (JavaLayerException | IOException e) {

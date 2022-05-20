@@ -27,6 +27,7 @@ import static InternationalChess.pgn.PGNUtilities.writeGameToPGNFile;
 import static javax.swing.JFrame.setDefaultLookAndFeelDecorated;
 import static javax.swing.SwingUtilities.*;
 import InternationalChess.Play;
+import javazoom.jl.player.advanced.PlaybackEvent;
 
 public final class Game extends Observable {
 
@@ -127,9 +128,19 @@ public final class Game extends Observable {
         surrender.setFont(new Font("Rockwell", Font.BOLD, 25));
         surrender.setSize(200,60);
         surrender.addActionListener(e -> {
+            Main.play.stop();
+            String file = "music/Patrick Doyle-Hogwart's March.mp3";
+            Play play2 = new Play(file);
+            play2.start();
+            try {
+                Thread.sleep(1);
+
+            } catch (InterruptedException ex) {
+                ex.printStackTrace();
+            }
             JOptionPane.showMessageDialog(Game.get().getBoardPanel(),
                     "Game Over: Player " + Game.get().getGameBoard().currentPlayer() + " surrenders, "
-                    + "Player " + Game.get().getGameBoard().currentPlayer().getOpponent() + " wins!", "Game Over",
+                            + "Player " + Game.get().getGameBoard().currentPlayer().getOpponent() + " wins!", "Game Over",
                     JOptionPane.INFORMATION_MESSAGE);
         });
         this.gameFrame.add(surrender);
@@ -609,17 +620,25 @@ public final class Game extends Observable {
                         JOptionPane.WARNING_MESSAGE);
             }
             if (Game.get().getGameBoard().currentPlayer().isInCheckMate()) {
+                Main.play.stop();
+                String file = "music/Patrick Doyle-Hogwart's March.mp3";
+                Play play2 = new Play(file);
+                play2.start();
+                try {
+                    Thread.sleep(1);
+
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
                 JOptionPane.showMessageDialog(Game.get().getBoardPanel(),
                         "Game Over: Player " + Game.get().getGameBoard().currentPlayer() + " is in checkmate!", "Game Over",
                         JOptionPane.INFORMATION_MESSAGE);
-                Main.play.stop();
             }
 
             if (Game.get().getGameBoard().currentPlayer().isInStaleMate()) {
                 JOptionPane.showMessageDialog(Game.get().getBoardPanel(),
                         "Game Over: Player " + Game.get().getGameBoard().currentPlayer() + " is in stalemate!", "Game Over",
                         JOptionPane.INFORMATION_MESSAGE);
-                Main.play.stop();
             }
 
         }
