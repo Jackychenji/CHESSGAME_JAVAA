@@ -95,9 +95,9 @@ public final class Game extends Observable {
 
         state = new JLabel();
         state.setLocation(800,100);
-        state.setText("WHITE");
+        state.setText("WHITE's TURN");
         state.setFont(new Font("Rockwell", Font.BOLD, 25));
-        state.setSize(200,60);
+        state.setSize(250,60);
         state.setVisible(true);
         this.gameFrame.add(state);
 
@@ -195,12 +195,12 @@ public final class Game extends Observable {
 
     public void setStatement(){
      if (chessBoard.currentPlayer().getAlliance()==Alliance.WHITE){
-         state.setText("WHITE");
+         state.setText("WHITE's TURN");
          state.setVisible(true);
          //black.setVisible(false);
          //white.setVisible(true);
      }else {
-         state.setText("BLACK");
+         state.setText("BLACK's TURN");
          state.setVisible(true);
          //white.setVisible(false);
          //black.setVisible(true);
