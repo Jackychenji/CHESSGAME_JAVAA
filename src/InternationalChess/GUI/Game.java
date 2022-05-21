@@ -65,7 +65,9 @@ public final class Game extends Observable {
         reset.setFont(new Font("Rockwell", Font.BOLD, 25));
         reset.setSize(200, 60);
         reset.addActionListener(e -> {
-            undoAllMoves();
+            chessBoard = Board.createStandardBoard();
+            setStatement();
+            Game.get().getBoardPanel().drawBoard(chessBoard);
 
         });
         this.gameFrame.add(reset);
@@ -101,7 +103,7 @@ public final class Game extends Observable {
         state.setVisible(true);
         this.gameFrame.add(state);
 
-        final JButton save = new JButton("save");//悔棋
+        final JButton save = new JButton("save");//储存
         save.setLocation(800, 400);
         save.setFont(new Font("Rockwell", Font.BOLD, 25));
         save.setSize(200, 60);
@@ -119,7 +121,7 @@ public final class Game extends Observable {
             });
             final int option = chooser.showSaveDialog(Game.get().getGameFrame());
             if (option == JFileChooser.APPROVE_OPTION) {
-                savePGNFile(chooser.getSelectedFile());
+                saveFENFile(chooser.getSelectedFile());
             }
         });
         this.gameFrame.add(save);
@@ -285,6 +287,7 @@ public final class Game extends Observable {
                 if (fenString != null) {
                     undoAllMoves();
                     chessBoard = FenUtilities.createGameFromFEN(fenString);
+                    setStatement();
                     Game.get().getBoardPanel().drawBoard(chessBoard);
 
                 }
@@ -512,7 +515,6 @@ public final class Game extends Observable {
         }
         setStatement();
         this.computerMove = null;
-        Game.get().getMoveLog().clear();
         //Game.get().getGameHistoryPanel().redo(chessBoard, Game.get().getMoveLog());
         //Game.get().getTakenPiecesPanel().redo(Game.get().getMoveLog());
         Game.get().getBoardPanel().drawBoard(chessBoard);
@@ -540,18 +542,12 @@ public final class Game extends Observable {
         }
 
     }
-    void saveFENFile(final Board board){
+    public void saveFENFile(final File fenFile){
         try {
-            File testFile = new File("D:\\系统文件\\桌面\\save.txt");
-            if (testFile.exists()) {
-                testFile.delete();
+            Board board = this.chessBoard;
+            try (final Writer writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(fenFile, true)))) {
+                writer.write(FenUtilities.createFENFromGame(board));
             }
-
-            testFile.createNewFile();
-
-            BufferedWriter writer=new BufferedWriter(new FileWriter(testFile));
-            writer.write(FenUtilities.createFENFromGame(board));
-            writer.close();
         }
         catch (final IOException e) {
             e.printStackTrace();
