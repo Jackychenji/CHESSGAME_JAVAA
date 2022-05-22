@@ -55,6 +55,8 @@ public final class Game extends Observable {
     private static final Dimension TILE_PANEL_DIMENSION = new Dimension(10, 10);
 
     private static final Game INSTANCE = new Game();
+    public static Play play2;
+    public boolean isSurrendered = false;
 
     private Game() {
         this.gameFrame = new JFrame("Wizard Chess");
@@ -68,7 +70,14 @@ public final class Game extends Observable {
             chessBoard = Board.createStandardBoard();
             setStatement();
             Game.get().getBoardPanel().drawBoard(chessBoard);
-
+            if (isSurrendered){
+                Game.play2.stop();
+                Main.play.start();
+            }
+            if (TableGameAIWatcher.isCheckmate){
+                TableGameAIWatcher.play2.stop();
+                Main.play.start();
+            }
         });
         this.gameFrame.add(reset);
         final JButton undo = new JButton("undo");//悔棋
@@ -130,9 +139,10 @@ public final class Game extends Observable {
         surrender.setFont(new Font("Rockwell", Font.BOLD, 25));
         surrender.setSize(200,60);
         surrender.addActionListener(e -> {
+            isSurrendered = true;
             Main.play.stop();
             String file = "music/Patrick Doyle-Hogwart's March.mp3";
-            Play play2 = new Play(file);
+            play2 = new Play(file);
             play2.start();
             try {
                 Thread.sleep(1);
@@ -597,6 +607,8 @@ public final class Game extends Observable {
     private static class TableGameAIWatcher
             implements Observer {
 
+        public static Play play2;
+        public static boolean isCheckmate = false;
         @Override
         public void update(final Observable o,
                            final Object arg) {
@@ -616,9 +628,10 @@ public final class Game extends Observable {
                         JOptionPane.WARNING_MESSAGE);
             }
             if (Game.get().getGameBoard().currentPlayer().isInCheckMate()) {
+                isCheckmate = true;
                 Main.play.stop();
                 String file = "music/Patrick Doyle-Hogwart's March.mp3";
-                Play play2 = new Play(file);
+                play2 = new Play(file);
                 play2.start();
                 try {
                     Thread.sleep(1);
