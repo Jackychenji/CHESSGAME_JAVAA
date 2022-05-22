@@ -231,7 +231,7 @@ public final class Game extends Observable {
         return this.debugPanel;
     }*/
 
-    private GameSetup getGameSetup() {
+    GameSetup getGameSetup() {
         return this.gameSetup;
     }
 
@@ -599,7 +599,7 @@ public final class Game extends Observable {
         notifyObservers(playerType);
     }
 
-    private void setupUpdate(final GameSetup gameSetup) {
+    void setupUpdate(final GameSetup gameSetup) {
         setChanged();
         notifyObservers(gameSetup);
     }
