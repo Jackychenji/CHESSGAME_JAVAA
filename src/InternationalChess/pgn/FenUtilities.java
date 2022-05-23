@@ -38,6 +38,7 @@ public class FenUtilities {
         final boolean blackQueenSideCastle = blackQueenSideCastle(fenPartitions[2]);
         final String gameConfiguration = fenPartitions[0];
         final char[] boardTiles = gameConfiguration.replaceAll("/", "")
+                .replaceAll("9", "---------")
                 .replaceAll("8", "--------")
                 .replaceAll("7", "-------")
                 .replaceAll("6", "------")
@@ -104,9 +105,9 @@ public class FenUtilities {
                     break;
                 default:
                     JOptionPane.showMessageDialog(InternationalChess.GUI.Game.get().getBoardPanel(),
-                            "错误编码：101", "Warning",
+                            "错误编码：102", "Warning",
                             JOptionPane.INFORMATION_MESSAGE);
-                    throw new RuntimeException("错误编码：101");
+                    throw new RuntimeException("错误编码：102");
 
             }
         }

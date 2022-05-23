@@ -337,11 +337,23 @@ public final class Game extends Observable {
             if (option == JFileChooser.APPROVE_OPTION) {
                 String fenString = loadFENFile(chooser.getSelectedFile());
                 if (fenString != null) {
-                    undoAllMoves();
-                    chessBoard = FenUtilities.createGameFromFEN(fenString);
-                    setStatement();
-                    Game.get().getBoardPanel().drawBoard(chessBoard);
-
+                    boolean truth = true;
+                    String[] fenstr = fenString.split("/");
+                    for (int i = 0; i< fenstr.length; i++){
+                        if (fenstr[i].length()>8|(fenstr[i].length() == 1&&Integer.parseInt(fenstr[i])>8)|fenstr.length!=8){
+                            truth = false;
+                        }
+                    }
+                    if (truth) {
+                        undoAllMoves();
+                        chessBoard = FenUtilities.createGameFromFEN(fenString);
+                        setStatement();
+                        Game.get().getBoardPanel().drawBoard(chessBoard);
+                    }else {
+                        JOptionPane.showMessageDialog(InternationalChess.GUI.Game.get().getBoardPanel(),
+                                "错误编码：101", "Warning",
+                                JOptionPane.INFORMATION_MESSAGE);
+                    }
                 }
             }
         });
