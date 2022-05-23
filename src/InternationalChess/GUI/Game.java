@@ -298,7 +298,7 @@ public final class Game extends Observable {
     private void populateMenuBar(final JMenuBar tableMenuBar) {
         tableMenuBar.add(createFileMenu());
         //tableMenuBar.add(createPreferencesMenu());
-        tableMenuBar.add(createOptionsMenu());
+        //tableMenuBar.add(createOptionsMenu());
     }
 
     private static void center(final JFrame frame) {
@@ -314,15 +314,15 @@ public final class Game extends Observable {
         final JMenu filesMenu = new JMenu("File");
         filesMenu.setMnemonic(KeyEvent.VK_F);
 
-        final JMenuItem openPGN = new JMenuItem("PGN File", KeyEvent.VK_O);
-        openPGN.addActionListener(e -> {
-            JFileChooser chooser = new JFileChooser();
-            int option = chooser.showOpenDialog(Game.get().getGameFrame());
-            if (option == JFileChooser.APPROVE_OPTION) {
-                loadPGNFile(chooser.getSelectedFile());
-            }
-        });
-        filesMenu.add(openPGN);
+//        final JMenuItem openPGN = new JMenuItem("PGN File", KeyEvent.VK_O);
+//        openPGN.addActionListener(e -> {
+//            JFileChooser chooser = new JFileChooser();
+//            int option = chooser.showOpenDialog(Game.get().getGameFrame());
+//            if (option == JFileChooser.APPROVE_OPTION) {
+//                loadPGNFile(chooser.getSelectedFile());
+//            }
+//        });
+//        filesMenu.add(openPGN);
 
         final JMenuItem openFEN = new JMenuItem("Load FEN File", KeyEvent.VK_F);
         openFEN.addActionListener(e -> {
@@ -339,7 +339,7 @@ public final class Game extends Observable {
                 if (fenString != null) {
                     boolean truth = true;
                     String[] fenstr = fenString.split("/");
-                    for (int i = 0; i< fenstr.length; i++){
+                    for (int i = 0; i< fenstr.length-1; i++){
                         if (fenstr[i].length()>8|(fenstr[i].length() == 1&&Integer.parseInt(fenstr[i])>8)|fenstr.length!=8){
                             truth = false;
                         }
@@ -359,25 +359,25 @@ public final class Game extends Observable {
         });
         filesMenu.add(openFEN);
 
-        final JMenuItem saveToPGN = new JMenuItem("Save Game", KeyEvent.VK_S);
-        saveToPGN.addActionListener(e -> {
-            final JFileChooser chooser = new JFileChooser();
-            chooser.setFileFilter(new FileFilter() {
-                @Override
-                public String getDescription() {
-                    return ".pgn";
-                }
-                @Override
-                public boolean accept(final File file) {
-                    return file.isDirectory() || file.getName().toLowerCase().endsWith("pgn");
-                }
-            });
-            final int option = chooser.showSaveDialog(Game.get().getGameFrame());
-            if (option == JFileChooser.APPROVE_OPTION) {
-                savePGNFile(chooser.getSelectedFile());
-            }
-        });
-        filesMenu.add(saveToPGN);
+//        final JMenuItem saveToPGN = new JMenuItem("Save Game", KeyEvent.VK_S);
+//        saveToPGN.addActionListener(e -> {
+//            final JFileChooser chooser = new JFileChooser();
+//            chooser.setFileFilter(new FileFilter() {
+//                @Override
+//                public String getDescription() {
+//                    return ".pgn";
+//                }
+//                @Override
+//                public boolean accept(final File file) {
+//                    return file.isDirectory() || file.getName().toLowerCase().endsWith("pgn");
+//                }
+//            });
+//            final int option = chooser.showSaveDialog(Game.get().getGameFrame());
+//            if (option == JFileChooser.APPROVE_OPTION) {
+//                savePGNFile(chooser.getSelectedFile());
+//            }
+//        });
+//        filesMenu.add(saveToPGN);
 
         final JMenuItem exitMenuItem = new JMenuItem("Exit", KeyEvent.VK_X);
         exitMenuItem.addActionListener(e -> {
@@ -389,7 +389,7 @@ public final class Game extends Observable {
         return filesMenu;
     }
 
-    private JMenu createOptionsMenu() {
+   /* private JMenu createOptionsMenu() {
 
         final JMenu optionsMenu = new JMenu("Options");
         optionsMenu.setMnemonic(KeyEvent.VK_O);
@@ -437,7 +437,7 @@ public final class Game extends Observable {
         optionsMenu.add(setupGameMenuItem);
 
         return optionsMenu;
-    }
+    }*/
 
     /*private JMenu createPreferencesMenu() {
 
