@@ -195,10 +195,6 @@ public final class Game extends Observable {
             ImageIcon ic = new ImageIcon("images/background.png");
             SwingUtilities.invokeLater(() -> {
                 System.exit(0);
-
-                Login mainFrame;
-                mainFrame = new Login(ic.getIconWidth(), ic.getIconHeight());
-                mainFrame.setVisible(true);
             });
         });
         this.gameFrame.add(exit);
