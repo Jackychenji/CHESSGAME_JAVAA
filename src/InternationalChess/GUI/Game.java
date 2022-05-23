@@ -50,7 +50,7 @@ public final class Game extends Observable {
     private Color darkTileColor = new Color(181,126,99);
     private Color lightTileColor =  new Color(250,217,181);
 
-    private static final Dimension OUTER_FRAME_DIMENSION = new Dimension(1100, 1100);
+    private static final Dimension OUTER_FRAME_DIMENSION = new Dimension(1100, 900);
     private static final Dimension BOARD_PANEL_DIMENSION = new Dimension(750, 700);
     private static final Dimension TILE_PANEL_DIMENSION = new Dimension(10, 10);
 
@@ -62,10 +62,14 @@ public final class Game extends Observable {
         this.gameFrame = new JFrame("Wizard Chess");
         final JMenuBar tableMenuBar = new JMenuBar();
         populateMenuBar(tableMenuBar);
-        final JButton reset = new JButton("reset");//重新开始
-        reset.setLocation(800, 200);
-        reset.setFont(new Font("Rockwell", Font.BOLD, 25));
-        reset.setSize(200, 60);
+        ImageIcon icon = new ImageIcon("images/reset.png");
+        icon.setImage(icon.getImage().getScaledInstance(230,80,Image.SCALE_DEFAULT));
+        final JButton reset = new JButton(icon);//重新开始
+        reset.setLocation(800, 150);
+        reset.setBorderPainted(false);
+        reset.setContentAreaFilled(false);
+        reset.setOpaque(false);
+        reset.setSize(230, 80);
         reset.addActionListener(e -> {
             chessBoard = Board.createStandardBoard();
             setStatement();
@@ -80,10 +84,14 @@ public final class Game extends Observable {
             }
         });
         this.gameFrame.add(reset);
-        final JButton undo = new JButton("undo");//悔棋
-        undo.setLocation(800, 300);
-        undo.setFont(new Font("Rockwell", Font.BOLD, 25));
-        undo.setSize(200, 60);
+        ImageIcon icon2 = new ImageIcon("images/undo.png");
+        icon2.setImage(icon2.getImage().getScaledInstance(230,80,Image.SCALE_DEFAULT));
+        final JButton undo = new JButton(icon2);//悔棋
+        undo.setLocation(800, 250);
+        undo.setBorderPainted(false);
+        undo.setContentAreaFilled(false);
+        undo.setOpaque(false);
+        undo.setSize(230, 80);
         undo.addActionListener(e -> {
             if(Game.get().getMoveLog().size() > 0) {
                 undoLastMove();
@@ -105,17 +113,21 @@ public final class Game extends Observable {
         this.gameFrame.add(white);*/
 
         state = new JLabel();
-        state.setLocation(800,100);
+        state.setLocation(790,50);
         state.setText("WHITE's TURN");
-        state.setFont(new Font("Rockwell", Font.BOLD, 25));
+        state.setFont(new Font("Harry P", Font.BOLD, 46));
         state.setSize(250,60);
         state.setVisible(true);
         this.gameFrame.add(state);
 
-        final JButton save = new JButton("save");//储存
-        save.setLocation(800, 400);
-        save.setFont(new Font("Rockwell", Font.BOLD, 25));
-        save.setSize(200, 60);
+        ImageIcon icon3 = new ImageIcon("images/save.png");
+        icon3.setImage(icon3.getImage().getScaledInstance(230,80,Image.SCALE_DEFAULT));
+        final JButton save = new JButton(icon3);//储存
+        save.setLocation(800, 350);
+        save.setBorderPainted(false);
+        save.setContentAreaFilled(false);
+        save.setOpaque(false);
+        save.setSize(230, 80);
         save.addActionListener(e -> {//存档
             final JFileChooser chooser = new JFileChooser();
             chooser.setFileFilter(new FileFilter() {
@@ -134,10 +146,14 @@ public final class Game extends Observable {
             }
         });
         this.gameFrame.add(save);
-        surrender = new JButton("surrender");
-        surrender.setLocation(800,600);
-        surrender.setFont(new Font("Rockwell", Font.BOLD, 25));
-        surrender.setSize(200,60);
+        ImageIcon icon4 = new ImageIcon("images/surrender.png");
+        icon4.setImage(icon4.getImage().getScaledInstance(230,80,Image.SCALE_DEFAULT));
+        surrender = new JButton(icon4);
+        surrender.setLocation(800, 550);
+        surrender.setBorderPainted(false);
+        surrender.setContentAreaFilled(false);
+        surrender.setOpaque(false);
+        surrender.setSize(230, 80);
         surrender.addActionListener(e -> {
             isSurrendered = true;
             Main.play.stop();
@@ -157,11 +173,36 @@ public final class Game extends Observable {
         });
         this.gameFrame.add(surrender);
 
-        final JButton flip = new JButton("flip");//翻转棋盘
-        flip.setLocation(800,500);
-        flip.setFont(new Font("Rockwell", Font.BOLD, 25));
-        flip.setSize(200,60);
+        ImageIcon icon5 = new ImageIcon("images/flip.png");
+        icon5.setImage(icon5.getImage().getScaledInstance(230,80,Image.SCALE_DEFAULT));
+        final JButton flip = new JButton(icon5);//翻转棋盘
+        flip.setLocation(800, 450);
+        flip.setBorderPainted(false);
+        flip.setContentAreaFilled(false);
+        flip.setOpaque(false);
+        flip.setSize(230, 80);
         this.gameFrame.add(flip);
+
+        ImageIcon icon6 = new ImageIcon("images/exit.png");
+        icon6.setImage(icon6.getImage().getScaledInstance(230,80,Image.SCALE_DEFAULT));
+        final JButton exit = new JButton(icon6);//退出,返回主界面
+        exit.setLocation(800, 650);
+        exit.setBorderPainted(false);
+        exit.setContentAreaFilled(false);
+        exit.setOpaque(false);
+        exit.setSize(230, 80);
+        exit.addActionListener(e -> {
+            ImageIcon ic = new ImageIcon("images/background.png");
+            SwingUtilities.invokeLater(() -> {
+                System.exit(0);
+
+                Login mainFrame;
+                mainFrame = new Login(ic.getIconWidth(), ic.getIconHeight());
+                mainFrame.setVisible(true);
+            });
+        });
+        this.gameFrame.add(exit);
+
         this.gameFrame.setJMenuBar(tableMenuBar);//上面
         this.gameFrame.setLayout(new BorderLayout());
         this.chessBoard = Board.createStandardBoard();
@@ -178,6 +219,11 @@ public final class Game extends Observable {
         this.addObserver(new TableGameAIWatcher());
         this.gameSetup = new GameSetup(this.gameFrame, true);
         this.gameFrame.add(this.boardPanel, BorderLayout.WEST);
+        ImageIcon ic = new ImageIcon("images/background2.png");
+        ic.setImage(ic.getImage().getScaledInstance(350,800,Image.SCALE_DEFAULT));
+        JLabel jLabel = new JLabel(ic);
+        jLabel.setBounds(750,0,ic.getIconWidth(),ic.getIconHeight());
+        this.gameFrame.add(jLabel);
         setDefaultLookAndFeelDecorated(true);
         this.gameFrame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         this.gameFrame.setSize(OUTER_FRAME_DIMENSION);

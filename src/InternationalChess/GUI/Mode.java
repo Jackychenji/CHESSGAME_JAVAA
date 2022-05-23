@@ -9,8 +9,6 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
-import static InternationalChess.GUI.Game.loadPGNFile;
-
 
 /**
  * 这个类表示游戏过程中的整个游戏界面，是一切的载体

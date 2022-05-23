@@ -14,7 +14,6 @@ class GameSetup extends JDialog {
 
     private PlayerType whitePlayerType;
     private PlayerType blackPlayerType;
-    private JSpinner searchDepthSpinner;
     private static final String COMPUTER_WHITE = "White";
     private static final String COMPUTER_BLACK = "Black";
 
