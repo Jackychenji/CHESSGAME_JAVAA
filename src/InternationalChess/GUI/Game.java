@@ -206,10 +206,30 @@ public final class Game extends Observable {
         load.setOpaque(false);
         load.setSize(230, 80);
         load.addActionListener(e -> {
-            ImageIcon ic = new ImageIcon("images/background.png");
-            SwingUtilities.invokeLater(() -> {
-                System.exit(0);
-            });
+            JFileChooser chooser = new JFileChooser();
+            int option = chooser.showOpenDialog(Game.get().getGameFrame());
+            if (option == JFileChooser.APPROVE_OPTION) {
+                String fenString = loadFENFile(chooser.getSelectedFile());
+                if (fenString != null) {
+                    boolean truth = true;
+                    String[] fenstr = fenString.split("/");
+                    for (int i = 0; i< fenstr.length-1; i++){
+                        if (fenstr[i].length()>8|(fenstr[i].length() == 1&&Integer.parseInt(fenstr[i])>8)|fenstr.length!=8){
+                            truth = false;
+                        }
+                    }
+                    if (truth) {
+                        undoAllMoves();
+                        chessBoard = FenUtilities.createGameFromFEN(fenString);
+                        setStatement();
+                        Game.get().getBoardPanel().drawBoard(chessBoard);
+                    }else {
+                        JOptionPane.showMessageDialog(InternationalChess.GUI.Game.get().getBoardPanel(),
+                                "错误编码：101", "Warning",
+                                JOptionPane.INFORMATION_MESSAGE);
+                    }
+                }
+            }
         });
         this.gameFrame.add(load);
 
@@ -341,12 +361,6 @@ public final class Game extends Observable {
 
         final JMenuItem openFEN = new JMenuItem("Load FEN File", KeyEvent.VK_F);
         openFEN.addActionListener(e -> {
-//            String fenString = JOptionPane.showInputDialog("Input FEN");
-//            if(fenString != null) {
-//                undoAllMoves();
-//                chessBoard = FenUtilities.createGameFromFEN(fenString);
-//                Game.get().getBoardPanel().drawBoard(chessBoard);
-//            }
             JFileChooser chooser = new JFileChooser();
             int option = chooser.showOpenDialog(Game.get().getGameFrame());
             if (option == JFileChooser.APPROVE_OPTION) {
