@@ -149,7 +149,7 @@ public final class Game extends Observable {
         ImageIcon icon4 = new ImageIcon("images/surrender.png");
         icon4.setImage(icon4.getImage().getScaledInstance(230,80,Image.SCALE_DEFAULT));
         surrender = new JButton(icon4);
-        surrender.setLocation(800, 390);
+        surrender.setLocation(800, 570);
         surrender.setBorderPainted(false);
         surrender.setContentAreaFilled(false);
         surrender.setOpaque(false);
@@ -186,7 +186,7 @@ public final class Game extends Observable {
         ImageIcon icon6 = new ImageIcon("images/exit.png");
         icon6.setImage(icon6.getImage().getScaledInstance(230,80,Image.SCALE_DEFAULT));
         final JButton exit = new JButton(icon6);//退出,返回主界面
-        exit.setLocation(800, 570);
+        exit.setLocation(800, 660);
         exit.setBorderPainted(false);
         exit.setContentAreaFilled(false);
         exit.setOpaque(false);
@@ -199,8 +199,10 @@ public final class Game extends Observable {
         });
         this.gameFrame.add(exit);
 
-        final JButton load = new JButton(icon6);//退出,返回主界面
-        load.setLocation(800, 660);
+        ImageIcon icon7 = new ImageIcon("images/load.png");
+        icon7.setImage(icon7.getImage().getScaledInstance(230,80,Image.SCALE_DEFAULT));
+        final JButton load = new JButton(icon7);//
+        load.setLocation(800, 390);
         load.setBorderPainted(false);
         load.setContentAreaFilled(false);
         load.setOpaque(false);
