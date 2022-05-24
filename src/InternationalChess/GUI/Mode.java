@@ -3,10 +3,7 @@ import javax.swing.*;
 import java.awt.*;
 
 
-/**
- * 这个类表示游戏过程中的整个游戏界面，是一切的载体
- */
-public class Mode extends JFrame {
+public class Mode extends JFrame {//模式选择，pvp还是pvc
     private final int WIDTH;
     private final int HEIGHT;
 

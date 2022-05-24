@@ -16,7 +16,7 @@ public class Main {
         String file = "music/music1.mp3";
 
         play = new Play(file);
-        // 开启
+        //播放音乐
         play.start();
         try {
             Thread.sleep(1000);

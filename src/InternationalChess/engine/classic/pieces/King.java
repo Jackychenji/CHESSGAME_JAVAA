@@ -43,7 +43,7 @@ public final class King extends Piece {
 
     public boolean isCastled() {
         return this.isCastled;
-    }
+    }//王车易位
 
     public boolean isKingSideCastleCapable() {
         return this.kingSideCastleCapable;

@@ -3,13 +3,7 @@ import InternationalChess.pgn.FenUtilities;
 import javax.swing.*;
 import java.awt.*;
 
-
-
-
-/**
- * 这个类表示游戏过程中的整个游戏界面，是一切的载体
- */
-public class Login extends JFrame {
+public class Login extends JFrame {//游戏登录界面
     private final int WIDTH;
     private final int HEIGHT;
 

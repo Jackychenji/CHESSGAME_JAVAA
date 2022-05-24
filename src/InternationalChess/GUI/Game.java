@@ -9,7 +9,6 @@ import InternationalChess.engine.classic.board.Move;
 import InternationalChess.engine.classic.board.Move.MoveFactory;
 import InternationalChess.engine.classic.board.MoveTransition;
 import InternationalChess.engine.classic.pieces.Piece;
-import InternationalChess.engine.classic.player.Player;
 import InternationalChess.engine.classic.player.ai.StockAlphaBeta;
 import InternationalChess.pgn.FenUtilities;
 import InternationalChess.pgn.MySqlGamePersistence;
@@ -33,7 +32,7 @@ public final class Game extends Observable {
     private final JFrame gameFrame;
     private final BoardPanel boardPanel;
     private final MoveLog moveLog;
-    private final GameSetup gameSetup;//人机对战
+    private final GameSetup gameSetup;
     private Board chessBoard;
     private JLabel state;
     private JButton surrender;
@@ -105,13 +104,13 @@ public final class Game extends Observable {
 
         ImageIcon icon3 = new ImageIcon("images/save.png");
         icon3.setImage(icon3.getImage().getScaledInstance(230,80,Image.SCALE_DEFAULT));
-        final JButton save = new JButton(icon3);//储存
+        final JButton save = new JButton(icon3);//存档
         save.setLocation(800, 300);
         save.setBorderPainted(false);
         save.setContentAreaFilled(false);
         save.setOpaque(false);
         save.setSize(230, 80);
-        save.addActionListener(e -> {//存档
+        save.addActionListener(e -> {
             final JFileChooser chooser = new JFileChooser();
             chooser.setFileFilter(new FileFilter() {
                 @Override
@@ -168,7 +167,7 @@ public final class Game extends Observable {
 
         ImageIcon icon6 = new ImageIcon("images/exit.png");
         icon6.setImage(icon6.getImage().getScaledInstance(230,80,Image.SCALE_DEFAULT));
-        final JButton exit = new JButton(icon6);//退出,返回主界面
+        final JButton exit = new JButton(icon6);//退出
         exit.setLocation(800, 660);
         exit.setBorderPainted(false);
         exit.setContentAreaFilled(false);
@@ -181,7 +180,7 @@ public final class Game extends Observable {
 
         ImageIcon icon7 = new ImageIcon("images/load.png");
         icon7.setImage(icon7.getImage().getScaledInstance(230,80,Image.SCALE_DEFAULT));
-        final JButton load = new JButton(icon7);//
+        final JButton load = new JButton(icon7);//加载
         load.setLocation(800, 390);
         load.setBorderPainted(false);
         load.setContentAreaFilled(false);
@@ -458,7 +457,7 @@ public final class Game extends Observable {
                 Game.get().updateGameBoard(Game.get().getGameBoard().currentPlayer().makeMove(bestMove).getToBoard());
                 Game.get().getMoveLog().addMove(bestMove);
                 Game.get().getBoardPanel().drawBoard(Game.get().getGameBoard());
-                Game.get().moveMadeUpdate(PlayerType.COMPUTER);//不能注释
+                Game.get().moveMadeUpdate(PlayerType.COMPUTER);
             } catch (final Exception e) {
                 e.printStackTrace();
             }

@@ -3,14 +3,11 @@ package InternationalChess.GUI;
 import InternationalChess.engine.classic.Alliance;
 import InternationalChess.engine.classic.player.Player;
 import InternationalChess.GUI.Game.PlayerType;
-import javafx.stage.Screen;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
-class GameSetup extends JDialog {
+class GameSetup extends JDialog {//人机选择电脑方颜色
 
     private PlayerType whitePlayerType;
     private PlayerType blackPlayerType;

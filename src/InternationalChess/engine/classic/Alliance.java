@@ -5,7 +5,7 @@ import InternationalChess.engine.classic.player.BlackPlayer;
 import InternationalChess.engine.classic.player.Player;
 import InternationalChess.engine.classic.player.WhitePlayer;
 
-public enum Alliance {
+public enum Alliance {//己方棋子
 
     WHITE() {
 

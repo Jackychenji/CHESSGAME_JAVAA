@@ -34,7 +34,7 @@ public final class WhitePlayer extends Player {
 
         final List<Move> kingCastles = new ArrayList<>();
 
-        if(this.playerKing.isFirstMove() && this.playerKing.getPiecePosition() == 60 && !this.isInCheck()) {
+        if(this.playerKing.isFirstMove() && this.playerKing.getPiecePosition() == 60 && !this.isInCheck()) {//王车易位
             //whites king side castle
             if(this.board.getPiece(61) == null && this.board.getPiece(62) == null) {
                 final Piece kingSideRook = this.board.getPiece(63);

@@ -59,7 +59,7 @@ public final class Pawn extends Piece {
             }
             else if (currentCandidateOffset == 16 && this.isFirstMove() &&
                     ((BoardUtils.INSTANCE.SECOND_ROW.get(this.piecePosition) && this.pieceAlliance.isBlack()) ||
-                     (BoardUtils.INSTANCE.SEVENTH_ROW.get(this.piecePosition) && this.pieceAlliance.isWhite()))) {
+                     (BoardUtils.INSTANCE.SEVENTH_ROW.get(this.piecePosition) && this.pieceAlliance.isWhite()))) {//吃过路兵
                 final int behindCandidateDestinationCoordinate =
                         this.piecePosition + (this.pieceAlliance.getDirection() * 8);
                 if (board.getPiece(candidateDestinationCoordinate) == null &&

@@ -34,7 +34,7 @@ public final class BlackPlayer extends Player {
 
         final List<Move> kingCastles = new ArrayList<>();
 
-        if (this.playerKing.isFirstMove() && this.playerKing.getPiecePosition() == 4 && !this.isInCheck) {
+        if (this.playerKing.isFirstMove() && this.playerKing.getPiecePosition() == 4 && !this.isInCheck) {//王车易位
             //blacks king side castle
             if (this.board.getPiece(5) == null && this.board.getPiece(6) == null) {
                 final Piece kingSideRook = this.board.getPiece(7);
