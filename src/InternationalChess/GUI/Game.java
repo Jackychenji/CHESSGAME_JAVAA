@@ -357,6 +357,7 @@ public final class Game extends Observable {
         final Move lastMove = Game.get().getMoveLog().removeMove(Game.get().getMoveLog().size() - 1);
         this.chessBoard = this.chessBoard.currentPlayer().unMakeMove(lastMove).getToBoard();
         this.computerMove = null;
+        setStatement();
         Game.get().getMoveLog().removeMove(lastMove);
         Game.get().getBoardPanel().drawBoard(chessBoard);
     }
