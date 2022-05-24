@@ -19,17 +19,11 @@ public final class MoveTransition {
         this.moveStatus = moveStatus;
     }
 
-    public Board getFromBoard() {
-        return this.fromBoard;
-    }
 
     public Board getToBoard() {
          return this.toBoard;
     }
 
-    public Move getTransitionMove() {
-        return this.transitionMove;
-    }
 
     public MoveStatus getMoveStatus() {
         return this.moveStatus;

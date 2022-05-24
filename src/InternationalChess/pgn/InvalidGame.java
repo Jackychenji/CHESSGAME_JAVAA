@@ -18,8 +18,4 @@ public class InvalidGame extends Game {
         return "Invalid Game " + this.tags;
     }
 
-    @Override
-    public boolean isValid() {
-        return false;
-    }
 }

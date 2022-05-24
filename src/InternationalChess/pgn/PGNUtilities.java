@@ -3,12 +3,9 @@ package InternationalChess.pgn;
 import InternationalChess.engine.classic.board.Board;
 import InternationalChess.engine.classic.board.BoardUtils;
 import InternationalChess.engine.classic.board.Move;
-import InternationalChess.GUI.Game.MoveLog;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableList.Builder;
 
-import java.io.*;
-import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -17,7 +14,6 @@ import static InternationalChess.engine.classic.board.Move.MoveFactory;
 
 public class PGNUtilities {
 
-    private static final Pattern PGN_PATTERN = Pattern.compile("\\[(\\w+)\\s+\"(.*?)\"\\]$");
     private static final Pattern KING_SIDE_CASTLE = Pattern.compile("O-O#?\\+?");
     private static final Pattern QUEEN_SIDE_CASTLE = Pattern.compile("O-O-O#?\\+?");
     private static final Pattern PLAIN_PAWN_MOVE = Pattern.compile("^([a-h][0-8])(\\+)?(#)?$");
@@ -29,76 +25,6 @@ public class PGNUtilities {
 
     private PGNUtilities() {
         throw new RuntimeException("Not Instantiable!");
-    }
-
-    public static void persistPGNFile(final File pgnFile) throws IOException {
-
-        int count = 0;
-        int validCount = 0;
-
-        try (final BufferedReader br = new BufferedReader(new FileReader(pgnFile))) {
-            String line;
-            PGNGameTags.TagsBuilder tagsBuilder = new PGNGameTags.TagsBuilder();
-            StringBuilder gameTextBuilder = new StringBuilder();
-            while((line = br.readLine()) != null) {
-                if (!line.isEmpty()) {
-                    if (isTag(line)) {
-                        final Matcher matcher = PGN_PATTERN.matcher(line);
-                        if (matcher.find()) {
-                            tagsBuilder.addTag(matcher.group(1), matcher.group(2));
-                        }
-                    }
-                    else if (isEndOfGame(line)) {
-                        final String[] ending = line.split(" ");
-                        final String outcome = ending[ending.length - 1];
-                        gameTextBuilder.append(line.replace(outcome, "")).append(" ");
-                        final String gameText = gameTextBuilder.toString().trim();
-                        if(!gameText.isEmpty() && gameText.length() > 80) {
-                            final Game game = GameFactory.createGame(tagsBuilder.build(), gameText, outcome);
-                            System.out.println("(" +(++count)+") Finished parsing " +game+ " count = " + (++count));
-                            if(game.isValid()) {
-                                MySqlGamePersistence.get().persistGame(game);
-                                validCount++;
-                            }
-                        }
-                        gameTextBuilder = new StringBuilder();
-                        tagsBuilder = new PGNGameTags.TagsBuilder();
-                    }
-                    else {
-                        gameTextBuilder.append(line).append(" ");
-                    }
-                }
-            }
-            br.readLine();
-        }
-        System.out.println("Finished building book from pgn file: " + pgnFile + " Parsed " +count+ " games, valid = " +validCount);
-    }
-
-    public static void writeGameToPGNFile(final File pgnFile,
-                                          final MoveLog moveLog) throws IOException {
-        final StringBuilder builder = new StringBuilder();
-        builder.append(calculateEventString()).append("\n");
-        builder.append(calculateDateString()).append("\n");
-        builder.append(calculatePlyCountString(moveLog)).append("\n");
-        for(final Move move : moveLog.getMoves()) {
-            builder.append(move.toString()).append(" ");
-        }
-        try (final Writer writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(pgnFile, true)))) {
-            writer.write(builder.toString());
-        }
-    }
-
-    private static String calculateEventString() {
-        return "[Event \"" +"Black Widow Game"+ "\"]";
-    }
-
-    private static String calculateDateString() {
-        final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy.MM.dd");
-        return "[Date \"" + dateFormat.format(new Date()) + "\"]";
-    }
-
-    private static String calculatePlyCountString(final MoveLog moveLog) {
-        return "[PlyCount \"" +moveLog.size() + "\"]";
     }
 
     public static List<String> processMoveText(final String gameText) throws ParsePGNException {
@@ -142,15 +68,6 @@ public class PGNUtilities {
 
     private static String removeWhiteSpace(final String row) {
         return row.trim().replaceAll("\\s+", " ");
-    }
-
-    private static boolean isTag(final String gameText) {
-        return gameText.startsWith("[") && gameText.endsWith("]");
-    }
-
-    private static boolean isEndOfGame(final String gameText) {
-        return gameText.endsWith("1-0") || gameText.endsWith("0-1") ||
-               gameText.endsWith("1/2-1/2") || gameText.endsWith("*");
     }
 
     private static String removeParenthesis(final String gameText) {

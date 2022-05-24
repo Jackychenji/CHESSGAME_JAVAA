@@ -11,9 +11,4 @@ public class ValidGame
         super(tags, moves, outcome);
     }
 
-    @Override
-    public boolean isValid() {
-        return true;
-    }
-
 }

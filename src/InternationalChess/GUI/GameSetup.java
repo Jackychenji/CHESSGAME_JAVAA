@@ -36,12 +36,10 @@ class GameSetup extends JDialog {
 
         final JButton okButton = new JButton("OK");
 
-        okButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                whitePlayerType = whiteComputerButton.isSelected() ? PlayerType.COMPUTER : PlayerType.HUMAN;
-                blackPlayerType = blackComputerButton.isSelected() ? PlayerType.COMPUTER : PlayerType.HUMAN;
-                GameSetup.this.setVisible(false);
-            }
+        okButton.addActionListener(e -> {
+            whitePlayerType = whiteComputerButton.isSelected() ? PlayerType.COMPUTER : PlayerType.HUMAN;
+            blackPlayerType = blackComputerButton.isSelected() ? PlayerType.COMPUTER : PlayerType.HUMAN;
+            GameSetup.this.setVisible(false);
         });
 
         myPanel.add(okButton);
@@ -71,19 +69,7 @@ class GameSetup extends JDialog {
         return this.blackPlayerType;
     }
 
-    private static JSpinner addLabeledSpinner(final Container c,
-                                              final String label,
-                                              final SpinnerModel model) {
-        final JLabel l = new JLabel(label);
-        c.add(l);
-        final JSpinner spinner = new JSpinner(model);
-        l.setLabelFor(spinner);
-        c.add(spinner);
-        return spinner;
-    }
-
     int getSearchDepth() {
-        /*return (Integer)this.searchDepthSpinner.getValue();*/
         return 1;
     }
 }

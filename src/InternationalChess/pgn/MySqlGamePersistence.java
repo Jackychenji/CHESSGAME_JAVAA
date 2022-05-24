@@ -33,8 +33,6 @@ public class MySqlGamePersistence implements PGNPersistence {
         createGameTable();
         createIndex("outcome", "OutcomeIndex");
         createIndex("moves", "MoveIndex");
-//        createOutcomeIndex();
-//        createMovesIndex();
     }
 
     private static Connection createDBConnection() {
@@ -126,42 +124,6 @@ public class MySqlGamePersistence implements PGNPersistence {
 
     }
 
-    private void createOutcomeIndex() {
-        try {
-            final String sqlString = "SELECT * FROM INFORMATION_SCHEMA.STATISTICS WHERE TABLE_CATALOG = 'def' AND TABLE_SCHEMA = DATABASE() AND TABLE_NAME = \"game\" AND INDEX_NAME = \"OutcomeIndex\"";
-            final Statement gameStatement = this.dbConnection.createStatement();
-            gameStatement.execute(sqlString);
-            final ResultSet resultSet = gameStatement.getResultSet();
-            if(!resultSet.isBeforeFirst() ) {
-                final Statement indexStatement = this.dbConnection.createStatement();
-                indexStatement.execute("CREATE INDEX OutcomeIndex on Game(outcome);\n");
-                indexStatement.close();
-            }
-            gameStatement.close();
-        }
-        catch (final SQLException e) {
-            e.printStackTrace();
-        }
-    }
-
-    private void createMovesIndex() {
-        try {
-            final String sqlString = "SELECT * FROM INFORMATION_SCHEMA.STATISTICS WHERE TABLE_CATALOG = 'def' AND TABLE_SCHEMA = DATABASE() AND TABLE_NAME = \"game\" AND INDEX_NAME = \"MoveIndex\"";
-            final Statement gameStatement = this.dbConnection.createStatement();
-            gameStatement.execute(sqlString);
-            final ResultSet resultSet = gameStatement.getResultSet();
-            if(!resultSet.isBeforeFirst() ) {
-                final Statement indexStatement = this.dbConnection.createStatement();
-                indexStatement.execute("CREATE INDEX MoveIndex on Game(moves);\n");
-                indexStatement.close();
-            }
-            gameStatement.close();
-        }
-        catch (final SQLException e) {
-            e.printStackTrace();
-        }
-    }
-
     public int getMaxGameRow() {
         int maxId = 0;
         try {
@@ -186,7 +148,7 @@ public class MySqlGamePersistence implements PGNPersistence {
             final PreparedStatement gameStatement = this.dbConnection.prepareStatement(gameSqlString);
             gameStatement.setInt(1, getMaxGameRow() + 1);
             gameStatement.setString(2, game.getWinner());
-            gameStatement.setString(3, game.getMoves().toString().replaceAll("\\[", "").replaceAll("\\]", ""));
+            gameStatement.setString(3, game.getMoves().toString().replaceAll("\\[", "").replaceAll("]", ""));
             gameStatement.executeUpdate();
             gameStatement.close();
         }

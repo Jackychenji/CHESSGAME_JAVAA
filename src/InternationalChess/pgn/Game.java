@@ -2,7 +2,7 @@ package InternationalChess.pgn;
 
 import java.util.List;
 
-public abstract class Game implements Playable {
+public abstract class Game  {
 
     protected final PGNGameTags tags;
     protected final List<String> moves;
@@ -16,10 +16,8 @@ public abstract class Game implements Playable {
         this.winner = calculateWinner(outcome);
     }
 
-    @Override
-    public String toString() {
-        return this.tags.toString();
-    }
+
+
 
     public List<String> getMoves() {
         return this.moves;
