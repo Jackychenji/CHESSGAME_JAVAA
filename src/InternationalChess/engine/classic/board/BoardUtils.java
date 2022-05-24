@@ -13,10 +13,6 @@ public enum  BoardUtils {
 
     public final List<Boolean> FIRST_COLUMN = initColumn(0);
     public final List<Boolean> SECOND_COLUMN = initColumn(1);
-    public final List<Boolean> THIRD_COLUMN = initColumn(2);
-    public final List<Boolean> FOURTH_COLUMN = initColumn(3);
-    public final List<Boolean> FIFTH_COLUMN = initColumn(4);
-    public final List<Boolean> SIXTH_COLUMN = initColumn(5);
     public final List<Boolean> SEVENTH_COLUMN = initColumn(6);
     public final List<Boolean> EIGHTH_COLUMN = initColumn(7);
     public final List<Boolean> FIRST_ROW = initRow(0);
@@ -85,10 +81,6 @@ public enum  BoardUtils {
 
     public String getPositionAtCoordinate(final int coordinate) {
         return ALGEBRAIC_NOTATION.get(coordinate);
-    }
-
-    public static boolean isThreatenedBoardImmediate(final Board board) {
-        return board.whitePlayer().isInCheck() || board.blackPlayer().isInCheck();
     }
 
     public static boolean kingThreat(final Move move) {

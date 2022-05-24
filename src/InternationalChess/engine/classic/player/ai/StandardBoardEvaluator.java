@@ -4,7 +4,6 @@ import InternationalChess.engine.classic.board.Board;
 import InternationalChess.engine.classic.board.Move;
 import InternationalChess.engine.classic.pieces.Piece;
 import InternationalChess.engine.classic.player.Player;
-import InternationalChess.engine.classic.player.ai.KingSafetyAnalyzer.KingDistance;
 import com.google.common.annotations.VisibleForTesting;
 
 import static InternationalChess.engine.classic.pieces.Piece.PieceType.BISHOP;
