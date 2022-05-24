@@ -65,7 +65,7 @@ public final class Game extends Observable {
         ImageIcon icon = new ImageIcon("images/reset.png");
         icon.setImage(icon.getImage().getScaledInstance(230,80,Image.SCALE_DEFAULT));
         final JButton reset = new JButton(icon);//重新开始
-        reset.setLocation(800, 150);
+        reset.setLocation(800, 120);
         reset.setBorderPainted(false);
         reset.setContentAreaFilled(false);
         reset.setOpaque(false);
@@ -87,7 +87,7 @@ public final class Game extends Observable {
         ImageIcon icon2 = new ImageIcon("images/undo.png");
         icon2.setImage(icon2.getImage().getScaledInstance(230,80,Image.SCALE_DEFAULT));
         final JButton undo = new JButton(icon2);//悔棋
-        undo.setLocation(800, 250);
+        undo.setLocation(800, 220);
         undo.setBorderPainted(false);
         undo.setContentAreaFilled(false);
         undo.setOpaque(false);
@@ -123,7 +123,7 @@ public final class Game extends Observable {
         ImageIcon icon3 = new ImageIcon("images/save.png");
         icon3.setImage(icon3.getImage().getScaledInstance(230,80,Image.SCALE_DEFAULT));
         final JButton save = new JButton(icon3);//储存
-        save.setLocation(800, 350);
+        save.setLocation(800, 320);
         save.setBorderPainted(false);
         save.setContentAreaFilled(false);
         save.setOpaque(false);
@@ -149,7 +149,7 @@ public final class Game extends Observable {
         ImageIcon icon4 = new ImageIcon("images/surrender.png");
         icon4.setImage(icon4.getImage().getScaledInstance(230,80,Image.SCALE_DEFAULT));
         surrender = new JButton(icon4);
-        surrender.setLocation(800, 550);
+        surrender.setLocation(800, 520);
         surrender.setBorderPainted(false);
         surrender.setContentAreaFilled(false);
         surrender.setOpaque(false);
@@ -176,7 +176,7 @@ public final class Game extends Observable {
         ImageIcon icon5 = new ImageIcon("images/flip.png");
         icon5.setImage(icon5.getImage().getScaledInstance(230,80,Image.SCALE_DEFAULT));
         final JButton flip = new JButton(icon5);//翻转棋盘
-        flip.setLocation(800, 450);
+        flip.setLocation(800, 420);
         flip.setBorderPainted(false);
         flip.setContentAreaFilled(false);
         flip.setOpaque(false);
@@ -186,7 +186,7 @@ public final class Game extends Observable {
         ImageIcon icon6 = new ImageIcon("images/exit.png");
         icon6.setImage(icon6.getImage().getScaledInstance(230,80,Image.SCALE_DEFAULT));
         final JButton exit = new JButton(icon6);//退出,返回主界面
-        exit.setLocation(800, 650);
+        exit.setLocation(800, 620);
         exit.setBorderPainted(false);
         exit.setContentAreaFilled(false);
         exit.setOpaque(false);
