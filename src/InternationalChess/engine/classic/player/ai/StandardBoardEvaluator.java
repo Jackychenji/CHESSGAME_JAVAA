@@ -10,7 +10,7 @@ import com.google.common.annotations.VisibleForTesting;
 import static InternationalChess.engine.classic.pieces.Piece.PieceType.BISHOP;
 
 public final class StandardBoardEvaluator
-        implements BoardEvaluator {
+        implements BoardEvaluator {//设置分数值，让电脑自我分析最优走法
 
     private final static int CHECK_MATE_BONUS = 10000;
     private final static int CHECK_BONUS = 45;
@@ -31,24 +31,6 @@ public final class StandardBoardEvaluator
     public int evaluate(final Board board,
                         final int depth) {
         return score(board.whitePlayer(), depth) - score(board.blackPlayer(), depth);
-    }
-
-    public String evaluationDetails(final Board board, final int depth) {
-        return
-               ("White Mobility : " + mobility(board.whitePlayer()) + "\n") +
-                "White kingThreats : " + kingThreats(board.whitePlayer(), depth) + "\n" +
-                "White attacks : " + attacks(board.whitePlayer()) + "\n" +
-                "White castle : " + castle(board.whitePlayer()) + "\n" +
-                "White pieceEval : " + pieceEvaluations(board.whitePlayer()) + "\n" +
-                "White pawnStructure : " + pawnStructure(board.whitePlayer()) + "\n" +
-                "---------------------\n" +
-                "Black Mobility : " + mobility(board.blackPlayer()) + "\n" +
-                "Black kingThreats : " + kingThreats(board.blackPlayer(), depth) + "\n" +
-                "Black attacks : " + attacks(board.blackPlayer()) + "\n" +
-                "Black castle : " + castle(board.blackPlayer()) + "\n" +
-                "Black pieceEval : " + pieceEvaluations(board.blackPlayer()) + "\n" +
-                "Black pawnStructure : " + pawnStructure(board.blackPlayer()) + "\n\n" +
-                "Final Score = " + evaluate(board, depth);
     }
 
     @VisibleForTesting
@@ -117,13 +99,5 @@ public final class StandardBoardEvaluator
         return PawnStructureAnalyzer.get().pawnStructureScore(player);
     }
 
-    private static int kingSafety(final Player player) {
-        final KingDistance kingDistance = KingSafetyAnalyzer.get().calculateKingTropism(player);
-        return ((kingDistance.getEnemyPiece().getPieceValue() / 100) * kingDistance.getDistance());
-    }
-
-//    private static int rookStructure(final Player player) {
-//        return RookStructureAnalyzer.get().rookStructureScore(player);
-//    }
 
 }

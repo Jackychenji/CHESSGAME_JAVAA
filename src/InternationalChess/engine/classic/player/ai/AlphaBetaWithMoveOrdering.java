@@ -35,17 +35,12 @@ public class AlphaBetaWithMoveOrdering extends Observable implements MoveStrateg
             }
         };
 
-        public static Comparator<Move> SMART_SORT = new Comparator<Move>() {
-            @Override
-            public int compare(final Move move1, final Move move2) {
-                return ComparisonChain.start()
-                        .compareTrueFirst(BoardUtils.isThreatenedBoardImmediate(move1.getBoard()), BoardUtils.isThreatenedBoardImmediate(move2.getBoard()))
-                        .compareTrueFirst(move1.isAttack(), move2.isAttack())
-                        .compareTrueFirst(move1.isCastlingMove(), move2.isCastlingMove())
-                        .compare(move2.getMovedPiece().getPieceValue(), move1.getMovedPiece().getPieceValue())
-                        .result();
-            }
-        };
+        public static Comparator<Move> SMART_SORT = (move1, move2) -> ComparisonChain.start()
+                .compareTrueFirst(BoardUtils.isThreatenedBoardImmediate(move1.getBoard()), BoardUtils.isThreatenedBoardImmediate(move2.getBoard()))
+                .compareTrueFirst(move1.isAttack(), move2.isAttack())
+                .compareTrueFirst(move1.isCastlingMove(), move2.isCastlingMove())
+                .compare(move2.getMovedPiece().getPieceValue(), move1.getMovedPiece().getPieceValue())
+                .result();
 
         abstract Collection<Move> sort(Collection<Move> moves);
     }
@@ -66,10 +61,6 @@ public class AlphaBetaWithMoveOrdering extends Observable implements MoveStrateg
         return "AB+MO";
     }
 
-    @Override
-    public long getNumBoardsEvaluated() {
-        return this.boardsEvaluated;
-    }
 
     @Override
     public Move execute(final Board board) {
@@ -96,14 +87,11 @@ public class AlphaBetaWithMoveOrdering extends Observable implements MoveStrateg
                 if (alliance.isWhite() && currentValue > highestSeenValue) {
                     highestSeenValue = currentValue;
                     bestMove = move;
-                    //setChanged();
-                    //notifyObservers(bestMove);
+
                 }
                 else if (alliance.isBlack() && currentValue < lowestSeenValue) {
                     lowestSeenValue = currentValue;
                     bestMove = move;
-                    //setChanged();
-                    //notifyObservers(bestMove);
                 }
                 final String quiescenceInfo = " [h: " +highestSeenValue+ " l: " +lowestSeenValue+ "] q: " +this.quiescenceCount;
                 s = "\t" + toString() + "(" +this.searchDepth+ "), m: (" +moveCounter+ "/" +numMoves+ ") " + move + ", best:  " + bestMove

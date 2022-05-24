@@ -20,14 +20,6 @@ public final class PawnStructureAnalyzer {
         return INSTANCE;
     }
 
-    public int isolatedPawnPenalty(final Player player) {
-        return calculateIsolatedPawnPenalty(createPawnColumnTable(calculatePlayerPawns(player)));
-    }
-
-    public int doubledPawnPenalty(final Player player) {
-        return calculatePawnColumnStack(createPawnColumnTable(calculatePlayerPawns(player)));
-    }
-
     public int pawnStructureScore(final Player player) {
         final int[] pawnsOnColumnTable = createPawnColumnTable(calculatePlayerPawns(player));
         return calculatePawnColumnStack(pawnsOnColumnTable) + calculateIsolatedPawnPenalty(pawnsOnColumnTable);

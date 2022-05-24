@@ -383,7 +383,6 @@ public final class Game extends Observable {
             if (Game.get().getGameSetup().isAIPlayer(Game.get().getGameBoard().currentPlayer()) &&
                     !Game.get().getGameBoard().currentPlayer().isInCheckMate() &&
                     !Game.get().getGameBoard().currentPlayer().isInStaleMate()) {
-                System.out.println(Game.get().getGameBoard().currentPlayer() + " is set to AI, thinking....");
                 final AIThinkTank thinkTank = new AIThinkTank();
                 thinkTank.execute();
             }

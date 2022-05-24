@@ -61,10 +61,6 @@ public class StockAlphaBeta extends Observable implements MoveStrategy {
         return "StockAB";
     }
 
-    @Override
-    public long getNumBoardsEvaluated() {
-        return this.boardsEvaluated;
-    }
 
     @Override
     public Move execute(final Board board) {
@@ -74,7 +70,6 @@ public class StockAlphaBeta extends Observable implements MoveStrategy {
         int highestSeenValue = Integer.MIN_VALUE;
         int lowestSeenValue = Integer.MAX_VALUE;
         int currentValue;
-        System.out.println(board.currentPlayer() + " THINKING with depth = " + this.searchDepth);
         int moveCounter = 1;
         int numMoves = board.currentPlayer().getLegalMoves().size();
         for (final Move move : MoveSorter.EXPENSIVE.sort((board.currentPlayer().getLegalMoves()))) {
@@ -108,7 +103,7 @@ public class StockAlphaBeta extends Observable implements MoveStrategy {
             } else {
                 s = "\t" + toString() + "(" +this.searchDepth + ")" + ", m: (" +moveCounter+ "/" +numMoves+ ") " + move + " is illegal! best: " +bestMove;
             }
-            System.out.println(s);
+
             setChanged();
             notifyObservers(s);
             moveCounter++;
@@ -117,8 +112,6 @@ public class StockAlphaBeta extends Observable implements MoveStrategy {
         final long executionTime = System.currentTimeMillis() - startTime;
         final String result = board.currentPlayer() + " SELECTS " +bestMove+ " [#boards evaluated = " +this.boardsEvaluated+
                 " time taken = " + executionTime /1000+ " rate = " +(1000 * ((double)this.boardsEvaluated/ executionTime));
-        System.out.printf("%s SELECTS %s [#boards evaluated = %d, time taken = %d ms, rate = %.1f\n", board.currentPlayer(),
-                bestMove, this.boardsEvaluated, executionTime, (1000 * ((double)this.boardsEvaluated/ executionTime)));
         setChanged();
         notifyObservers(result);
         return bestMove;
