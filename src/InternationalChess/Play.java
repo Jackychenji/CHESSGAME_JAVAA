@@ -8,7 +8,7 @@ import javazoom.jl.player.advanced.PlaybackListener;
 import java.io.FileInputStream;
 import java.io.IOException;
 
-public  class Play implements Runnable {
+public class Play implements Runnable {
 
     private final String file;
     private AdvancedPlayer player = null;
@@ -50,7 +50,7 @@ public  class Play implements Runnable {
                 @Override
                 public void playbackFinished(PlaybackEvent event) {
                     // 当播放完毕后,会触发该事件,再次调用start()即可!
-                        start();
+                    start();
                 }
             });
         } catch (JavaLayerException | IOException e) {
